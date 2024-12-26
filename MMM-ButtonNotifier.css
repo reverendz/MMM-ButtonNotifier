@@ -1,54 +1,32 @@
-.button-notifier-menu {
+.button-notifier {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
 }
 
-.hamburger-menu {
-    position: relative;
-    display: inline-block;
-}
-
-.hamburger-icon {
-    font-size: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #007bff;
-    padding: 5px;
-}
-
-.dropdown {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 40px;
-    left: 0;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-}
-
-.dropdown.hidden {
-    display: none;
-}
-
-.menu-item {
-    padding: 10px 20px;
+.button {
+    padding: 15px 30px;
     font-size: 16px;
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    background-color: #007bff;
+    color: white;
     cursor: pointer;
-    color: #333;
-    background-color: #fff;
-    border-radius: 5px;
-    margin: 5px 0;
-    transition: background-color 0.3s ease;
+    touch-action: manipulation; /* Optimize for touchscreens */
 }
 
-.menu-item:hover {
-    background-color: #007bff;
-    color: #fff;
+.button:active {
+    background-color: #0056b3;
+}
+
+.button.alternative {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.button.alternative:active {
+    background-color: #1e7e34;
 }
