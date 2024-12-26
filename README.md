@@ -5,35 +5,28 @@ Simple Module to create an onscreen Button to send notifications for Magic Mirro
 Add to config.js 
 
 ```js
-   modules: [
-    {
+  {
         module: "MMM-ButtonNotifier",
-        position: "top_left", // Place the hamburger menu where you want
+        position: "top_center", // Choose any position
         config: {
-            menuLabel: "Menu", // Optional customization for future menu labels
             buttons: [
                 {
                     label: "Notify All",
                     notification: "NOTIFY_ALL",
-                    targetModule: null,
+                    targetModule: null, // Broadcast
                     payload: { message: "Hello, world!" },
+                    style: "default",
                 },
                 {
-                    label: "Start Timer",
+                    label: "Notify Timer",
                     notification: "TIMER_START",
-                    targetModule: "MMM-Timer",
-                    payload: { duration: 60 },
-                },
-                {
-                    label: "Stop Timer",
-                    notification: "TIMER_STOP",
-                    targetModule: "MMM-Timer",
-                    payload: null,
+                    targetModule: "MMM-Timer", // Send only to MMM-Timer module
+                    payload: { duration: 30 },
+                    style: "alternative",
                 },
             ],
         },
     },
-];
 
 ``` 
 
