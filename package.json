@@ -1,0 +1,8 @@
+{
+    "name": "MMM-ButtonNotifier",
+    "version": "1.0.0",
+    "description": "A Magic Mirror module to send notifications when buttons are clicked.",
+    "main": "MMM-ButtonNotifier.js",
+    "author": "Your Name",
+    "license": "MIT"
+}
