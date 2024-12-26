@@ -3,20 +3,30 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 10px;
+    gap: 15px;
+    padding: 20px;
 }
 
 .button {
-    padding: 10px 20px;
+    padding: 15px 30px;
     font-size: 16px;
-    border: none;
-    border-radius: 5px;
+    border: 2px solid #007bff;
+    border-radius: 10px;
     background-color: #007bff;
     color: white;
     cursor: pointer;
+    touch-action: manipulation; /* Optimize for touchscreens */
 }
 
-.button:hover {
+.button:active {
     background-color: #0056b3;
+}
+
+.button.alternative {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.button.alternative:active {
+    background-color: #1e7e34;
 }
