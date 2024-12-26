@@ -10,11 +10,23 @@ Add to config.js
         position: "top_center", // Choose any position
         config: {
             buttons: [
-                { label: "Start", notification: "START_BUTTON_CLICKED" },
-                { label: "Stop", notification: "STOP_BUTTON_CLICKED" },
-                    ],
-            },
-     },
+                {
+                    label: "Notify All",
+                    notification: "NOTIFY_ALL",
+                    targetModule: null, // Broadcast
+                    payload: { message: "Hello, world!" },
+                    style: "default",
+                },
+                {
+                    label: "Notify Timer",
+                    notification: "TIMER_START",
+                    targetModule: "MMM-Timer", // Send only to MMM-Timer module
+                    payload: { duration: 30 },
+                    style: "alternative",
+                },
+            ],
+        },
+    },
 ``` 
 
 
