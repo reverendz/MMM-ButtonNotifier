@@ -5,18 +5,17 @@ Module.register("MMM-ButtonNotifier", {
             {
                 label: "Button 1",
                 notification: "BUTTON_1_CLICKED",
-                targetModule: null, // Set to a specific module name or null for broadcast
-                payload: { key: "value1" }, // Custom data to send with the notification
-                style: "default", // Optional style
+                targetModule: null, // Send to all modules by default
+                payload: { key: "value1" },
             },
             {
                 label: "Button 2",
                 notification: "BUTTON_2_CLICKED",
-                targetModule: "TargetModuleName", // Replace with actual module name
+                targetModule: "TargetModuleName",
                 payload: { key: "value2" },
-                style: "alternative",
             },
         ],
+        menuLabel: "Menu", // Label for the hamburger menu
     },
 
     // Define required styles
@@ -27,55 +26,51 @@ Module.register("MMM-ButtonNotifier", {
     // Generate the DOM for the module
     getDom: function () {
         const wrapper = document.createElement("div");
-        wrapper.className = "button-notifier";
+        wrapper.className = "button-notifier-menu";
+
+        // Create hamburger menu
+        const menuContainer = document.createElement("div");
+        menuContainer.className = "hamburger-menu";
+
+        const menuButton = document.createElement("button");
+        menuButton.className = "hamburger-icon";
+        menuButton.innerHTML = "☰"; // Unicode hamburger icon
+
+        // Dropdown container
+        const dropdown = document.createElement("div");
+        dropdown.className = "dropdown hidden";
 
         this.config.buttons.forEach((buttonConfig) => {
-            const button = document.createElement("button");
-            button.innerHTML = buttonConfig.label;
-            button.className = `button ${buttonConfig.style || "default"}`;
+            const menuItem = document.createElement("div");
+            menuItem.className = "menu-item";
+            menuItem.innerHTML = buttonConfig.label;
 
             // Add touch and click event listeners
-            button.addEventListener("touchstart", (event) => {
+            menuItem.addEventListener("touchstart", (event) => {
                 event.preventDefault(); // Prevent touch conflicts
                 this.handleButtonPress(buttonConfig);
             });
 
-            button.addEventListener("click", () => {
+            menuItem.addEventListener("click", () => {
                 this.handleButtonPress(buttonConfig);
             });
 
-            wrapper.appendChild(button);
+            dropdown.appendChild(menuItem);
         });
+
+        // Show/hide dropdown on menu button click
+        menuButton.addEventListener("click", () => {
+            dropdown.classList.toggle("hidden");
+        });
+
+        menuContainer.appendChild(menuButton);
+        menuContainer.appendChild(dropdown);
+        wrapper.appendChild(menuContainer);
 
         return wrapper;
     },
 
-    // Handle button press and send targeted notifications
+    // Handle button press and send notifications
     handleButtonPress: function (buttonConfig) {
         if (buttonConfig.targetModule) {
-            // Send the notification to a specific module
-            this.sendNotificationToModule(
-                buttonConfig.targetModule,
-                buttonConfig.notification,
-                buttonConfig.payload
-            );
-        } else {
-            // Broadcast the notification
-            this.sendNotification(buttonConfig.notification, buttonConfig.payload);
-        }
-        console.log(
-            `Notification sent: ${buttonConfig.notification} to ${
-                buttonConfig.targetModule || "ALL modules"
-            } with payload:`,
-            buttonConfig.payload
-        );
-    },
-
-    // Custom method to send notifications to a specific module
-    sendNotificationToModule: function (moduleName, notification, payload) {
-        const targetModules = MM.getModules().filter((module) => module.name === moduleName);
-        targetModules.forEach((module) => {
-            module.notificationReceived(notification, payload, this);
-        });
-    },
-});
+            // Sen
