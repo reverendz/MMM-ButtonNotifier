@@ -21,11 +21,21 @@ Module.register("MMM-ButtonNotifier", {
             const button = document.createElement("button");
             button.innerHTML = buttonConfig.label;
             button.className = "button";
-            button.addEventListener("click", () => {
+
+            // Add event listeners for touch and mouse clicks
+            button.addEventListener("touchstart", (event) => {
+                event.preventDefault(); // Prevent triggering other touch behaviors
                 this.sendNotification(buttonConfig.notification, {
                     label: buttonConfig.label,
                 });
             });
+
+            button.addEventListener("click", (event) => {
+                this.sendNotification(buttonConfig.notification, {
+                    label: buttonConfig.label,
+                });
+            });
+
             wrapper.appendChild(button);
         });
 
