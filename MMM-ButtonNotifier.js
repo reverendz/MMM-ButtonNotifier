@@ -1,4 +1,3 @@
-## Reverting to previous code because it's not working
 Module.register("MMM-ButtonNotifier", {
     // Default module configuration
     defaults: {
@@ -6,18 +5,17 @@ Module.register("MMM-ButtonNotifier", {
             {
                 label: "Button 1",
                 notification: "BUTTON_1_CLICKED",
-                targetModule: null, // Set to a specific module name or null for broadcast
-                payload: { key: "value1" }, // Custom data to send with the notification
-                style: "default", // Optional style
+                targetModule: null,
+                payload: { key: "value1" },
             },
             {
                 label: "Button 2",
                 notification: "BUTTON_2_CLICKED",
-                targetModule: "TargetModuleName", // Replace with actual module name
+                targetModule: "TargetModuleName",
                 payload: { key: "value2" },
-                style: "alternative",
             },
         ],
+        menuLabel: "☰", // Default hamburger icon
     },
 
     // Define required styles
@@ -28,40 +26,57 @@ Module.register("MMM-ButtonNotifier", {
     // Generate the DOM for the module
     getDom: function () {
         const wrapper = document.createElement("div");
-        wrapper.className = "button-notifier";
+        wrapper.className = "button-notifier-menu";
 
+        // Create the hamburger menu container
+        const menuContainer = document.createElement("div");
+        menuContainer.className = "hamburger-menu";
+
+        // Create the hamburger button
+        const menuButton = document.createElement("button");
+        menuButton.className = "hamburger-icon";
+        menuButton.innerHTML = this.config.menuLabel;
+
+        // Create the dropdown menu
+        const dropdown = document.createElement("div");
+        dropdown.className = "dropdown hidden"; // Initially hidden
+
+        // Populate dropdown with buttons
         this.config.buttons.forEach((buttonConfig) => {
-            const button = document.createElement("button");
-            button.innerHTML = buttonConfig.label;
-            button.className = `button ${buttonConfig.style || "default"}`;
+            const menuItem = document.createElement("div");
+            menuItem.className = "menu-item";
+            menuItem.innerHTML = buttonConfig.label;
 
-            // Add touch and click event listeners
-            button.addEventListener("touchstart", (event) => {
-                event.preventDefault(); // Prevent touch conflicts
+            // Attach event listeners
+            menuItem.addEventListener("click", () => {
                 this.handleButtonPress(buttonConfig);
             });
 
-            button.addEventListener("click", () => {
-                this.handleButtonPress(buttonConfig);
-            });
-
-            wrapper.appendChild(button);
+            dropdown.appendChild(menuItem);
         });
+
+        // Toggle dropdown visibility on hamburger button click
+        menuButton.addEventListener("click", () => {
+            dropdown.classList.toggle("hidden");
+        });
+
+        // Assemble the menu
+        menuContainer.appendChild(menuButton);
+        menuContainer.appendChild(dropdown);
+        wrapper.appendChild(menuContainer);
 
         return wrapper;
     },
 
-    // Handle button press and send targeted notifications
+    // Handle button press and send notifications
     handleButtonPress: function (buttonConfig) {
         if (buttonConfig.targetModule) {
-            // Send the notification to a specific module
             this.sendNotificationToModule(
                 buttonConfig.targetModule,
                 buttonConfig.notification,
                 buttonConfig.payload
             );
         } else {
-            // Broadcast the notification
             this.sendNotification(buttonConfig.notification, buttonConfig.payload);
         }
         console.log(
@@ -72,7 +87,7 @@ Module.register("MMM-ButtonNotifier", {
         );
     },
 
-    // Custom method to send notifications to a specific module
+    // Custom method to send notifications to specific modules
     sendNotificationToModule: function (moduleName, notification, payload) {
         const targetModules = MM.getModules().filter((module) => module.name === moduleName);
         targetModules.forEach((module) => {
