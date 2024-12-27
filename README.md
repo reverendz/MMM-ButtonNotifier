@@ -28,6 +28,34 @@ Add to config.js
         },
     },
 
-``` 
+```
+
+or
+
+```js
+modules: [
+    {
+        module: "MMM-ButtonNotifier",
+        position: "top_left",
+        config: {
+            buttons: [
+                {
+                    label: "Notify All",
+                    notification: "NOTIFY_ALL",
+                    targetModule: null,
+                    payload: { message: "Hello, world!" },
+                },
+                {
+                    label: "Start Timer",
+                    notification: "TIMER_START",
+                    targetModule: "MMM-Timer",
+                    payload: { duration: 60 },
+                },
+            ],
+        },
+    },
+];
+
+```
 
 
